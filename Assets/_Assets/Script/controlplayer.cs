@@ -20,24 +20,16 @@ public class controlplayer : MonoBehaviour
     void Update()
     {
         Vector3 currentMouseButten = GetMouseWorldPosition();
-        if (currentMouseButten.x > -3 && currentMouseButten.x < 3 && currentMouseButten.y > -5 && currentMouseButten.y < 5
-            && transform.position.x > -3 && transform.position.x < 3 && transform.position.y > -5 && transform.position.y < 5)
+        Vector3 currentMousePose = GetMouseWorldPosition();
+
+        Vector3 mouseDelta = currentMousePose - lastMousePose;
+
+        if (mouseDelta.sqrMagnitude > 0.01f)
         {
-            Vector3 currentMousePose = GetMouseWorldPosition();
+            Vector3 mouseDirection = mouseDelta.normalized;
+            transform.position += mouseDirection * playerSpeed * Time.deltaTime;
 
-            Vector3 mouseDelta = currentMousePose - lastMousePose;
-
-            if (mouseDelta.sqrMagnitude > 0.01f)
-            {
-                Vector3 mouseDirection = mouseDelta.normalized;
-                transform.position += mouseDirection * playerSpeed * Time.deltaTime;
-
-                lastMousePose = currentMousePose;
-            }
-        }
-        else
-        {
-            transform.position = lastMousePose;
+            lastMousePose = currentMousePose;
         }
 
     }
